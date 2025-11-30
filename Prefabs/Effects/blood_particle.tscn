@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://egfnxvqvsv3x"]
+
+[ext_resource type="Texture2D" uid="uid://hbgqccinf3jh" path="res://Sprites/Gore/Blood/BloodSplat.png" id="1_uqo3f"]
+
+[node name="BloodParticle" type="CPUParticles2D"]
+z_index = -1
+amount = 3
+texture = ExtResource("1_uqo3f")
+lifetime = 120.0
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 41.15
+gravity = Vector2(0, 0)

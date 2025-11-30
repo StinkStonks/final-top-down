@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=4 format=3 uid="uid://ssj55mividf3"]
+
+[ext_resource type="Script" uid="uid://ckexcyyh4nfm" path="res://Scripts/Custom Data/level_data.gd" id="1_js7k0"]
+[ext_resource type="Texture2D" uid="uid://c7e2s351hx41" path="res://icon.svg" id="1_pghcy"]
+[ext_resource type="PackedScene" uid="uid://es5rgj4fla0u" path="res://Levels/c_test.tscn" id="2_veugt"]
+
+[resource]
+script = ExtResource("1_js7k0")
+level_name = "Test Room"
+level_preview_texture = ExtResource("1_pghcy")
+level_description = "A basic mechanics testing level"
+level_scene = ExtResource("2_veugt")
+metadata/_custom_type_script = "uid://ckexcyyh4nfm"

@@ -1,0 +1,413 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdmu7qxvu3vv5"]
+
+[ext_resource type="Script" uid="uid://dytdyef8ctvhd" path="res://Scripts/User_Interface/main_menu.gd" id="1_6ucrw"]
+[ext_resource type="Script" uid="uid://ctuk73yjsgr8w" path="res://Scripts/User_Interface/campaign_selection_script.gd" id="2_jy27m"]
+[ext_resource type="Script" uid="uid://badsqantsa3ei" path="res://Scripts/User_Interface/level_select_button.gd" id="3_3es34"]
+[ext_resource type="Resource" uid="uid://ssj55mividf3" path="res://Resources/Levels/TestRoom1.tres" id="4_8md67"]
+
+[sub_resource type="Gradient" id="Gradient_351dl"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6ucrw"]
+gradient = SubResource("Gradient_351dl")
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_6ucrw")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MainMenuPanel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3923611
+anchor_top = 0.30864197
+anchor_right = 0.6076389
+anchor_bottom = 0.6111111
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/MainMenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.09274194
+grow_horizontal = 2
+text = "Temp Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MainMenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.12755105
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CampaignButton" type="Button" parent="Control/MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Campaign"
+
+[node name="ArenaButton" type="Button" parent="Control/MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Arena"
+
+[node name="OptionsButton" type="Button" parent="Control/MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="CreditsButton" type="Button" parent="Control/MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+
+[node name="QuitButton" type="Button" parent="Control/MainMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Exit"
+
+[node name="CampaignSelectionPanel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_jy27m")
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelSelectionPanel" type="Panel" parent="Control/CampaignSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.2013889
+anchor_bottom = 1.0
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HeaderPanel" type="Panel" parent="Control/CampaignSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.03549383
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/CampaignSelectionPanel/LevelSelectionPanel/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Levels"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CampaignSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.03549383
+anchor_right = 1.0
+anchor_bottom = 0.9521605
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="Control/CampaignSelectionPanel/LevelSelectionPanel/VBoxContainer"]
+layout_mode = 2
+text = "Level Button"
+script = ExtResource("3_3es34")
+level_data = ExtResource("4_8md67")
+
+[node name="Button" type="Button" parent="Control/CampaignSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.9521605
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 23.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDetailPanel" type="Control" parent="Control/CampaignSelectionPanel"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -920.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="LevelDescriptionPanel" type="Panel" parent="Control/CampaignSelectionPanel/LevelDetailPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.6111111
+anchor_right = 1.0000001
+anchor_bottom = 1.0
+offset_right = -6.1035156e-05
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="StartButton" type="Button" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8478261
+anchor_top = 0.8769841
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDescriptionControl" type="Control" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.8769841
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HaderPanel" type="Panel" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel/LevelDescriptionControl"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel/LevelDescriptionControl/HaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level Description"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDescriptionLabel" type="Label" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 0
+anchor_top = 0.09126984
+anchor_right = 0.99999994
+anchor_bottom = 0.8769841
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelNameHeaderPanel" type="Panel" parent="Control/CampaignSelectionPanel/LevelDetailPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0000001
+anchor_bottom = 0.03549383
+offset_right = -6.1035156e-05
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelNameHeaderPanel" type="Panel" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelNameHeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelName" type="Label" parent="Control/CampaignSelectionPanel/LevelDetailPanel/LevelNameHeaderPanel/LevelNameHeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level Name"
+horizontal_alignment = 1
+
+[node name="LevelPreviewTexutreRect" type="TextureRect" parent="Control/CampaignSelectionPanel/LevelDetailPanel"]
+layout_mode = 0
+anchor_top = 0.03549383
+anchor_right = 1.0
+anchor_bottom = 0.6111111
+texture = SubResource("GradientTexture1D_6ucrw")
+metadata/_edit_use_anchors_ = true
+
+[node name="ArenaSelectionPanel" type="Panel" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelSelectionPanel" type="Panel" parent="Control/ArenaSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.2013889
+anchor_bottom = 1.0
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HeaderPanel" type="Panel" parent="Control/ArenaSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.03549383
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control/ArenaSelectionPanel/LevelSelectionPanel/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Levels"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ArenaSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.03549383
+anchor_right = 1.0
+anchor_bottom = 0.9521605
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="Control/ArenaSelectionPanel/LevelSelectionPanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back
+"
+
+[node name="LevelDetailPanel" type="Control" parent="Control/ArenaSelectionPanel"]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -920.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="LevelDescriptionPanel" type="Panel" parent="Control/ArenaSelectionPanel/LevelDetailPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.6111111
+anchor_right = 1.0000001
+anchor_bottom = 1.0
+offset_right = -6.1035156e-05
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="StartButton" type="Button" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8478261
+anchor_top = 0.8769841
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDescriptionControl" type="Control" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 0.8769841
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HaderPanel" type="Panel" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelDescriptionPanel/LevelDescriptionControl"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelDescriptionPanel/LevelDescriptionControl/HaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level Description"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelDescriptionLabel" type="Label" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelDescriptionPanel"]
+layout_mode = 0
+anchor_top = 0.09126984
+anchor_right = 0.99999994
+anchor_bottom = 0.8769841
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelNameHeaderPanel" type="Panel" parent="Control/ArenaSelectionPanel/LevelDetailPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0000001
+anchor_bottom = 0.03549383
+offset_right = -6.1035156e-05
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="LevelNameHeaderPanel" type="Panel" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelNameHeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelName" type="Label" parent="Control/ArenaSelectionPanel/LevelDetailPanel/LevelNameHeaderPanel/LevelNameHeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Level Name"
+horizontal_alignment = 1
+
+[node name="LevelPreviewTexutreRect" type="TextureRect" parent="Control/ArenaSelectionPanel/LevelDetailPanel"]
+layout_mode = 0
+anchor_top = 0.03549383
+anchor_right = 1.0
+anchor_bottom = 0.6111111
+texture = SubResource("GradientTexture1D_6ucrw")
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="Control/MainMenuPanel/VBoxContainer/CampaignButton" to="." method="switch_focused_menu" binds= [1]]
+[connection signal="pressed" from="Control/MainMenuPanel/VBoxContainer/ArenaButton" to="." method="switch_focused_menu" binds= [2]]
+[connection signal="pressed" from="Control/MainMenuPanel/VBoxContainer/QuitButton" to="." method="call_quit_game"]
+[connection signal="level_selected" from="Control/CampaignSelectionPanel/LevelSelectionPanel/VBoxContainer/Button" to="Control/CampaignSelectionPanel" method="change_focused_level"]
+[connection signal="pressed" from="Control/CampaignSelectionPanel/LevelSelectionPanel/Button" to="." method="switch_focused_menu" binds= [0]]
+[connection signal="pressed" from="Control/CampaignSelectionPanel/LevelDetailPanel/LevelDescriptionPanel/StartButton" to="Control/CampaignSelectionPanel" method="load_focused_level"]

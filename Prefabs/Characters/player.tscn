@@ -1,0 +1,178 @@
+[gd_scene load_steps=11 format=3 uid="uid://ctignis256i7n"]
+
+[ext_resource type="Script" uid="uid://g2yi1fyf28rl" path="res://Scripts/Characters/player.gd" id="1_mcqfh"]
+[ext_resource type="Texture2D" uid="uid://c8jmcab1o6ver" path="res://Sprites/Player/Character.png" id="2_r3efx"]
+[ext_resource type="Script" uid="uid://cp0k0t32wqrw4" path="res://Scripts/Components/weapon_holder.gd" id="3_25cl6"]
+[ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="3_r3efx"]
+[ext_resource type="Resource" uid="uid://dfy6p3ft683ej" path="res://Resources/Weapons/Burst_Rifle.tres" id="4_ahvcc"]
+[ext_resource type="Texture2D" uid="uid://ce3t2imh43jge" path="res://Sprites/Weapons/Beamrifle.png" id="4_jmcfr"]
+[ext_resource type="Resource" uid="uid://eoro3vdfkdw8" path="res://Resources/Weapons/Smg.tres" id="5_ahvcc"]
+[ext_resource type="Script" uid="uid://dwh6eri6ms4gy" path="res://Scripts/User_Interface/player_hud.gd" id="9_rnjr3"]
+[ext_resource type="Script" uid="uid://dxl602v4ee4pb" path="res://Scripts/User_Interface/pause_menu_control.gd" id="9_vcg4a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qr7vc"]
+radius = 27.018513
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
+motion_mode = 1
+script = ExtResource("1_mcqfh")
+enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_qr7vc")
+
+[node name="Graphics" type="Node2D" parent="."]
+
+[node name="Character" type="Sprite2D" parent="Graphics"]
+position = Vector2(21, 0)
+texture = ExtResource("2_r3efx")
+
+[node name="WeaponHolder" type="Marker2D" parent="."]
+position = Vector2(15, 12)
+script = ExtResource("3_25cl6")
+current_weapon = ExtResource("4_ahvcc")
+backpack_weapon = ExtResource("5_ahvcc")
+
+[node name="Sprite2D" type="Sprite2D" parent="WeaponHolder"]
+position = Vector2(33.000004, 0)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_jmcfr")
+
+[node name="FiringPoint" type="Marker2D" parent="WeaponHolder"]
+position = Vector2(51, 0)
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_r3efx")
+metadata/_custom_type_script = "uid://562jwjog0doo"
+
+[node name="RayCast2D" type="RayCast2D" parent="HealthComponent"]
+
+[node name="InteractionManager" type="Node2D" parent="."]
+
+[node name="InteractionRaycast" type="RayCast2D" parent="InteractionManager"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
+[node name="PlayerCanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="HUD" type="Control" parent="PlayerCanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_rnjr3")
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthProgressBar" type="ProgressBar" parent="PlayerCanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.9583333
+anchor_right = 0.11631945
+anchor_bottom = 1.0
+grow_vertical = 0
+value = 100.0
+metadata/_edit_use_anchors_ = true
+
+[node name="AmmoPanel" type="Panel" parent="PlayerCanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9079861
+anchor_top = 0.9382716
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="AmmoPanelLabel" type="Label" parent="PlayerCanvasLayer/HUD/AmmoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "32/32
+320"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenuControl" type="Control" parent="PlayerCanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_vcg4a")
+
+[node name="PauseMenuPanel" type="Panel" parent="PlayerCanvasLayer/PauseMenuControl"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.42100695
+anchor_top = 0.3595679
+anchor_right = 0.5789931
+anchor_bottom = 0.69135803
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenuHeaderPanel" type="Panel" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.13186814
+grow_horizontal = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenuLabel" type="Label" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/PauseMenuHeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Paused"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.15348834
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="ResumeButton" type="Button" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="OptionsButton" type="Button" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="MenuButton" type="Button" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="QuitButton" type="Button" parent="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="update_ui" from="WeaponHolder" to="PlayerCanvasLayer" method="update_ammo_label"]
+[connection signal="health_changed" from="HealthComponent" to="PlayerCanvasLayer" method="update_health_bar"]
+[connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/ResumeButton" to="PlayerCanvasLayer/PauseMenuControl" method="pause_game"]
+[connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/RestartButton" to="PlayerCanvasLayer/PauseMenuControl" method="restart_level"]
+[connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/MenuButton" to="PlayerCanvasLayer/PauseMenuControl" method="return_to_menu"]
+[connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/QuitButton" to="PlayerCanvasLayer/PauseMenuControl" method="quit_game"]
