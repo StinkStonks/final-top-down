@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctignis256i7n"]
+[gd_scene load_steps=12 format=3 uid="uid://ctignis256i7n"]
 
 [ext_resource type="Script" uid="uid://g2yi1fyf28rl" path="res://Scripts/Characters/player.gd" id="1_mcqfh"]
 [ext_resource type="Texture2D" uid="uid://c8jmcab1o6ver" path="res://Sprites/Player/Character.png" id="2_r3efx"]
 [ext_resource type="Script" uid="uid://cp0k0t32wqrw4" path="res://Scripts/Components/weapon_holder.gd" id="3_25cl6"]
 [ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="3_r3efx"]
-[ext_resource type="Resource" uid="uid://dfy6p3ft683ej" path="res://Resources/Weapons/Burst_Rifle.tres" id="4_ahvcc"]
 [ext_resource type="Texture2D" uid="uid://ce3t2imh43jge" path="res://Sprites/Weapons/Beamrifle.png" id="4_jmcfr"]
+[ext_resource type="Resource" uid="uid://dsaxo75sayd1f" path="res://Resources/Weapons/beam_rifle.tres" id="4_rnjr3"]
 [ext_resource type="Resource" uid="uid://eoro3vdfkdw8" path="res://Resources/Weapons/Smg.tres" id="5_ahvcc"]
+[ext_resource type="Script" uid="uid://5gjprttqp3vn" path="res://Scripts/Components/interaction_manager.gd" id="8_vcg4a"]
 [ext_resource type="Script" uid="uid://dwh6eri6ms4gy" path="res://Scripts/User_Interface/player_hud.gd" id="9_rnjr3"]
 [ext_resource type="Script" uid="uid://dxl602v4ee4pb" path="res://Scripts/User_Interface/pause_menu_control.gd" id="9_vcg4a"]
 
@@ -31,7 +32,7 @@ texture = ExtResource("2_r3efx")
 [node name="WeaponHolder" type="Marker2D" parent="."]
 position = Vector2(15, 12)
 script = ExtResource("3_25cl6")
-current_weapon = ExtResource("4_ahvcc")
+current_weapon = ExtResource("4_rnjr3")
 backpack_weapon = ExtResource("5_ahvcc")
 
 [node name="Sprite2D" type="Sprite2D" parent="WeaponHolder"]
@@ -47,10 +48,13 @@ script = ExtResource("3_r3efx")
 metadata/_custom_type_script = "uid://562jwjog0doo"
 
 [node name="RayCast2D" type="RayCast2D" parent="HealthComponent"]
+enabled = false
 
 [node name="InteractionManager" type="Node2D" parent="."]
+script = ExtResource("8_vcg4a")
 
 [node name="InteractionRaycast" type="RayCast2D" parent="InteractionManager"]
+target_position = Vector2(100, 0)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -102,6 +106,7 @@ horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="PauseMenuControl" type="Control" parent="PlayerCanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -7,7 +7,7 @@ class_name Zombie
 @onready var collision : CollisionShape2D = $CollisionShape2D
 @onready var timer : Timer = $Timer
 
-@export var speed = 50
+@export var speed = 100
 @export var health = 50
 @export var player_position_always_known : bool = false
 

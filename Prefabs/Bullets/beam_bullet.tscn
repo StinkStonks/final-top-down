@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bookkagjjrdep"]
+
+[ext_resource type="Script" uid="uid://xw62as05otp" path="res://Scripts/Bullets/beam_bullet.gd" id="1_ky6or"]
+
+[node name="BeamBullet" type="RayCast2D"]
+target_position = Vector2(1000, 0)
+script = ExtResource("1_ky6or")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 0)

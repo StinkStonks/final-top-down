@@ -1,4 +1,5 @@
 extends Area2D
+class_name BasicBullet
 
 @export var damage : float = 10
 @export var speed : float = 50

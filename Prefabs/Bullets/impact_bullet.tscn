@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://kfe8yp3oc3no"]
+
+[ext_resource type="Script" uid="uid://benfsrd17dx62" path="res://Scripts/Bullets/impact_bullet.gd" id="1_s6ycl"]
+[ext_resource type="PackedScene" uid="uid://c4fqt1koc31v3" path="res://Prefabs/Impact Effects/impact_effect_area_damage.tscn" id="2_x6up6"]
+
+[sub_resource type="Gradient" id="Gradient_x6up6"]
+offsets = PackedFloat32Array(0.0022988506)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wonw8"]
+gradient = SubResource("Gradient_x6up6")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oge8w"]
+radius = 5.0
+
+[node name="ImpactBullet" type="Area2D"]
+script = ExtResource("1_s6ycl")
+impact_effect = ExtResource("2_x6up6")
+metadata/_custom_type_script = "uid://benfsrd17dx62"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -0.23632813)
+scale = Vector2(0.023437502, 5.5273438)
+texture = SubResource("GradientTexture1D_wonw8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_oge8w")

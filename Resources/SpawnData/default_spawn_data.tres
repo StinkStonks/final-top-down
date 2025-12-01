@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="SpawnData" load_steps=3 format=3 uid="uid://g41wm072fju4"]
+
+[ext_resource type="Script" uid="uid://dhwumoeusmhpq" path="res://Scripts/Custom Data/spawn_data.gd" id="1_o3ehn"]
+[ext_resource type="PackedScene" uid="uid://bqs342jetviw1" path="res://Prefabs/Characters/zombie.tscn" id="1_pirfg"]
+
+[resource]
+script = ExtResource("1_o3ehn")
+common_spawn_pool = Array[PackedScene]([ExtResource("1_pirfg")])
+common_spawn_chance = 100
+uncommon_spawn_chance = 0
+rare_spawn_chance = 0
+epic_spawn_chance = 0
+metadata/_custom_type_script = "uid://dhwumoeusmhpq"
