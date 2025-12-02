@@ -8,6 +8,5 @@ signal interacted(player:Player)
 
 func interact(player : Player):
 	interacted.emit(player)
-	
 	if use_once:
 		queue_free()

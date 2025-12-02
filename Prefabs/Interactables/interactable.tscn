@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo1f8ky4abju4"]
+
+[ext_resource type="Script" uid="uid://kykc6ogeawy5" path="res://Scripts/Interactables/interactable.gd" id="1_7l60a"]
+
+[node name="Interactable" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_7l60a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)

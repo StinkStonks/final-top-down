@@ -14,6 +14,8 @@ gradient = SubResource("Gradient_x6up6")
 radius = 5.0
 
 [node name="ImpactBullet" type="Area2D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_s6ycl")
 impact_effect = ExtResource("2_x6up6")
 metadata/_custom_type_script = "uid://benfsrd17dx62"

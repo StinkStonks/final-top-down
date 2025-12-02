@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://08j7ohwa0bq7" path="res://Sprites/Weapons/Burst_Rifle.png" id="3_g40db"]
 
 [resource]
+resource_name = "Burst Rifle"
 script = ExtResource("2_isp6e")
 texture = ExtResource("3_g40db")
 bullet_scene = ExtResource("1_g40db")

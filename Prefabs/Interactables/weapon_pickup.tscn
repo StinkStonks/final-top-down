@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbamlo7v3u7t2"]
+
+[ext_resource type="Script" uid="uid://bkrk1fekbig32" path="res://Scripts/Interactables/weapon_pickup.gd" id="1_t5e11"]
+[ext_resource type="Resource" uid="uid://dqts0ot8caju7" path="res://Resources/Weapons/bolt_rifle.tres" id="2_rkujr"]
+[ext_resource type="Texture2D" uid="uid://xai7bsvpgyfn" path="res://Sprites/Weapons/Bolt_Rifle.png" id="3_na7mv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vp5ib"]
+size = Vector2(60, 14)
+
+[node name="WeaponPickup" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_t5e11")
+weapon_data = ExtResource("2_rkujr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vp5ib")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_na7mv")

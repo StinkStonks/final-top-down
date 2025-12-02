@@ -8,13 +8,20 @@ var focused_interactable : Interactable = null
 signal has_interactable(interactable : Interactable)
 signal lost_interactable
 
-func _physics_process(delta: float) -> void:
+func _input(event: InputEvent) -> void:
+	if Input.is_action_just_pressed("interact"):
+		if focused_interactable != null:
+			focused_interactable.interact($"..")
+			if focused_interactable.use_once:
+				lost_interactable.emit()
+
+func _physics_process(_delta: float) -> void:
+	interaction_raycast.force_raycast_update()
 	if interaction_raycast.is_colliding():
 		var collider = interaction_raycast.get_collider()
 		
-		if collider is Interactable:
-			var interactable : Interactable = collider
-			focused_interactable = interactable
+		if collider is Interactable and collider != focused_interactable:
+			focus_interactable(collider)
 	elif !interaction_raycast.is_colliding() and focused_interactable != null:
 		lose_interactable()
 

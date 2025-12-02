@@ -1,12 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctignis256i7n"]
+[gd_scene load_steps=10 format=3 uid="uid://ctignis256i7n"]
 
 [ext_resource type="Script" uid="uid://g2yi1fyf28rl" path="res://Scripts/Characters/player.gd" id="1_mcqfh"]
 [ext_resource type="Texture2D" uid="uid://c8jmcab1o6ver" path="res://Sprites/Player/Character.png" id="2_r3efx"]
 [ext_resource type="Script" uid="uid://cp0k0t32wqrw4" path="res://Scripts/Components/weapon_holder.gd" id="3_25cl6"]
 [ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="3_r3efx"]
-[ext_resource type="Texture2D" uid="uid://ce3t2imh43jge" path="res://Sprites/Weapons/Beamrifle.png" id="4_jmcfr"]
-[ext_resource type="Resource" uid="uid://dsaxo75sayd1f" path="res://Resources/Weapons/beam_rifle.tres" id="4_rnjr3"]
-[ext_resource type="Resource" uid="uid://eoro3vdfkdw8" path="res://Resources/Weapons/Smg.tres" id="5_ahvcc"]
+[ext_resource type="Resource" uid="uid://eoro3vdfkdw8" path="res://Resources/Weapons/smg.tres" id="5_ahvcc"]
 [ext_resource type="Script" uid="uid://5gjprttqp3vn" path="res://Scripts/Components/interaction_manager.gd" id="8_vcg4a"]
 [ext_resource type="Script" uid="uid://dwh6eri6ms4gy" path="res://Scripts/User_Interface/player_hud.gd" id="9_rnjr3"]
 [ext_resource type="Script" uid="uid://dxl602v4ee4pb" path="res://Scripts/User_Interface/pause_menu_control.gd" id="9_vcg4a"]
@@ -16,6 +14,8 @@ radius = 27.018513
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
+collision_layer = 4
+collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_mcqfh")
 enabled = true
@@ -32,13 +32,11 @@ texture = ExtResource("2_r3efx")
 [node name="WeaponHolder" type="Marker2D" parent="."]
 position = Vector2(15, 12)
 script = ExtResource("3_25cl6")
-current_weapon = ExtResource("4_rnjr3")
-backpack_weapon = ExtResource("5_ahvcc")
+current_weapon = ExtResource("5_ahvcc")
 
 [node name="Sprite2D" type="Sprite2D" parent="WeaponHolder"]
 position = Vector2(33.000004, 0)
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("4_jmcfr")
 
 [node name="FiringPoint" type="Marker2D" parent="WeaponHolder"]
 position = Vector2(51, 0)
@@ -55,6 +53,9 @@ script = ExtResource("8_vcg4a")
 
 [node name="InteractionRaycast" type="RayCast2D" parent="InteractionManager"]
 target_position = Vector2(100, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
@@ -103,6 +104,20 @@ grow_vertical = 2
 text = "32/32
 320"
 horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="InteractLabel" type="Label" parent="PlayerCanvasLayer/HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4574653
+anchor_top = 0.57253087
+anchor_right = 0.5503472
+anchor_bottom = 0.6080247
+offset_bottom = -3.0517578e-05
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interact Label"
 metadata/_edit_use_anchors_ = true
 
 [node name="PauseMenuControl" type="Control" parent="PlayerCanvasLayer"]
@@ -177,6 +192,8 @@ text = "Quit"
 
 [connection signal="update_ui" from="WeaponHolder" to="PlayerCanvasLayer" method="update_ammo_label"]
 [connection signal="health_changed" from="HealthComponent" to="PlayerCanvasLayer" method="update_health_bar"]
+[connection signal="has_interactable" from="InteractionManager" to="PlayerCanvasLayer/HUD" method="show_interact_label"]
+[connection signal="lost_interactable" from="InteractionManager" to="PlayerCanvasLayer/HUD" method="hide_interact_label"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/ResumeButton" to="PlayerCanvasLayer/PauseMenuControl" method="pause_game"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/RestartButton" to="PlayerCanvasLayer/PauseMenuControl" method="restart_level"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/MenuButton" to="PlayerCanvasLayer/PauseMenuControl" method="return_to_menu"]

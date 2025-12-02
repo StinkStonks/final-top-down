@@ -23,6 +23,7 @@ func _ready() -> void:
 	if backpack_weapon:
 		backpack_weapon = backpack_weapon.duplicate()
 	
+	update_graphics()
 
 func switch_weapon():
 	if !can_switch:
@@ -38,6 +39,10 @@ func switch_weapon():
 	update_graphics()
 
 func update_graphics():
+	if current_weapon == null:
+		graphics.texture = null
+		graphics.offset = Vector2.ZERO
+		return
 	graphics.texture = current_weapon.texture
 	graphics.offset = current_weapon.offset
 	switched_weapon.emit(current_weapon)
@@ -111,11 +116,17 @@ func create_bullet(i : int):
 	
 	get_tree().current_scene.add_child(new_bullet)
 
+func get_weapon(data : WeaponData) -> WeaponData:
+	if current_weapon == data:
+		return current_weapon
+	elif backpack_weapon == data:
+		return backpack_weapon
+	return null
+
 func add_weapon(data : WeaponData):
-	if backpack_weapon == null:
-		backpack_weapon = data
+	if backpack_weapon == null and current_weapon != null:
+		backpack_weapon = data.duplicate()
 	else:
-		current_weapon.duplicate()
-		current_weapon = data
+		current_weapon = data.duplicate()
 	
 	update_graphics()

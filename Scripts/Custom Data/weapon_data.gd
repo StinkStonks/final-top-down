@@ -21,11 +21,15 @@ class_name WeaponData
 @export var max_ammo : int = 32
 
 @export_group("Overrides")
-@export_range(0, 1) var override_damage_amount : int = 0
+@export var override_damage_amount : int = 0
 @export var Infinite_Ammo : bool = false
 
 var initial_current_ammo : int 
 var initial_reserve_ammo : int 
+
+
+func add_ammo(amount : int):
+	reserve_ammo += amount
 
 func reset_weapon():
 	current_ammo = initial_current_ammo
