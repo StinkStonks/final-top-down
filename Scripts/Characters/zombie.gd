@@ -28,7 +28,7 @@ func _process(_delta: float) -> void:
 
 func update_ai():
 	if player_position_always_known:
-		var player : Player = get_tree().get_first_node_in_group("player")
+		var player : NewPlayer = get_tree().get_first_node_in_group("player")
 		agent.target_position = player.global_position
 
 func kill():
