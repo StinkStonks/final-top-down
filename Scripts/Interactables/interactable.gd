@@ -1,4 +1,4 @@
-extends Area2D
+extends Node2D
 class_name Interactable
 
 @export var interactable_name : String = 'New Interactable'

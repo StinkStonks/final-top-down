@@ -22,6 +22,8 @@ signal _focused_changed(focus : bool)
 signal _focused
 signal _unfocused
 
+signal died
+
 func _process(delta: float) -> void:
 	var desired_angle = (control_character_head() - head.global_position).angle()
 	var body_angle = global_rotation
@@ -66,3 +68,7 @@ func control_character_body() -> Vector2
 
 @abstract
 func control_character_head() -> Vector2
+
+func kill():
+	died.emit()
+	queue_free()
