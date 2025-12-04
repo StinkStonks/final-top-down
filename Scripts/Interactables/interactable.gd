@@ -5,8 +5,10 @@ class_name Interactable
 @export var use_once : bool = true
 
 signal interacted(player:Player)
+signal simple_interact
 
 func interact(player : Player):
+	simple_interact.emit()
 	interacted.emit(player)
 	if use_once:
 		queue_free()

@@ -7,7 +7,7 @@ class_name WeaponHolder
 @export var current_weapon : WeaponData
 @export var backpack_weapon : WeaponData
 
-var can_switch : bool = false
+var can_switch : bool = true
 var can_shoot : bool = true
 var bullets_shot : int = 0
 
@@ -123,10 +123,16 @@ func get_weapon(data : WeaponData) -> WeaponData:
 		return backpack_weapon
 	return null
 
+func set_weapons(current_data : WeaponData, backpack_data : WeaponData):
+	if current_data != null:
+		current_weapon = current_data
+	if backpack_data != null:
+		backpack_weapon = backpack_data
+	update_graphics()
+
 func add_weapon(data : WeaponData):
 	if backpack_weapon == null and current_weapon != null:
 		backpack_weapon = data.duplicate()
 	else:
 		current_weapon = data.duplicate()
-	
 	update_graphics()
