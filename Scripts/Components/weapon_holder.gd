@@ -62,6 +62,9 @@ func can_reload() -> bool:
 	return false
 
 func shoot():
+	if current_weapon == null: 
+		return
+	
 	if can_shoot and current_weapon.current_ammo > 0:
 		can_shoot = false
 		can_switch = false

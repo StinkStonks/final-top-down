@@ -1,47 +1,29 @@
-extends CharacterBody2D
+extends Enemy
 class_name Zombie
-
-@onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var health_component : HealthComponent = $HealthComponent
-@onready var graphics : AnimatedSprite2D = $AnimatedSprite2D
-@onready var collision : CollisionShape2D = $CollisionShape2D
-@onready var timer : Timer = $Timer
-
-@export var speed = 100
-@export var health = 50
-@export var player_position_always_known : bool = false
-
-signal died
-
-func _ready() -> void:
-	health_component.connect("died", kill)
-
-func _physics_process(delta: float) -> void:
-	var direction = to_local(agent.get_next_path_position()).normalized()
-	
-	velocity = direction * speed
-	
-	move_and_slide()
 
 func _process(_delta: float) -> void:
 	graphics.look_at(agent.get_next_path_position())
 
-func update_ai():
-	if player_position_always_known:
-		var player : Player = get_tree().get_first_node_in_group("player")
-		agent.target_position = player.global_position
+func control_motion(_delta:float):
+	var direction = to_local(agent.get_next_path_position()).normalized()
+	velocity = direction * speed
+	move_and_slide()
 
-func kill():
-	died.emit()
+func update_ai():
+	var player_spotted : bool = vision_manager.player_spotted()
+	var player_position : Vector2 = get_tree().get_first_node_in_group('player').global_position
 	
-	graphics.play("dead")
-	rotation_degrees = randf_range(0, 360)
-	collision_layer = 0
-	collision_mask = 0
-	z_index = -1
+	var desired_target_position : Vector2 = global_position
 	
-	set_process(false)
-	set_physics_process(false)
+	if player_position_always_known:
+		desired_target_position = player_position
 	
-	await get_tree().create_timer(120).timeout
-	queue_free()
+	if player_spotted and !chasing_player:
+		chasing_player = true
+		desired_target_position = player_position
+	
+	elif !player_spotted and chasing_player:
+		chasing_player = false
+		desired_target_position = global_position
+
+	agent.target_position = desired_target_position

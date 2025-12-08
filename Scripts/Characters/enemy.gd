@@ -1,37 +1,45 @@
-extends Character
+@abstract 
+extends CharacterBody2D
 class_name Enemy
 
-@onready var player : Player = get_tree().get_first_node_in_group('player')
 @onready var agent : NavigationAgent2D = $NavigationAgent2D
+@onready var health_component : HealthComponent = $HealthComponent
+@onready var graphics : AnimatedSprite2D = $AnimatedSprite2D
+@onready var collision : CollisionShape2D = $CollisionShape2D
+@onready var timer : Timer = $Timer
+@onready var vision_manager : VisionManager = $VisionManager
 
-var current_path_point : int = 0
+@export var speed = 100
+@export var health = 50
+@export var player_position_always_known : bool = false
 
-func _process(delta: float) -> void:
-	super(delta)
+var chasing_player = false
+
+signal died
+
+func _ready() -> void:
+	health_component.connect("died", kill)
 
 func _physics_process(delta: float) -> void:
-	super(delta)
+	control_motion(delta)
 
-func control_character_body() -> Vector2:
-	var output : Vector2 = Vector2.ZERO #X Turn Y Move
+@abstract
+func update_ai() -> void
+
+@abstract
+func control_motion(delta : float) -> void
+
+func kill() -> void:
+	graphics.play("dead")
 	
-	if set_target_position(player.global_position):
-		var angle_to_next_position : float = (agent.get_next_path_position() - global_position).angle()
-		var angle_diff : float = abs(angle_to_next_position - global_rotation)
-		
-		angle_diff = abs(wrapf(angle_diff, -PI, PI))
-		
-		if angle_diff < deg_to_rad(11):
-			print("facing")
-		
-		output.x = angle_diff
-		output.y = 1
+	died.emit()
+	rotation_degrees = randf_range(0, 360)
+	collision_layer = 0
+	collision_mask = 0
+	z_index = -1
 	
-	return output
-
-func control_character_head() -> Vector2:
-	return Vector2.ZERO
-
-func set_target_position(pos : Vector2) -> bool:
-	agent.target_position = pos
-	return agent.is_target_reachable()
+	set_process(false)
+	set_physics_process(false)
+	
+	await get_tree().create_timer(120).timeout
+	queue_free()
