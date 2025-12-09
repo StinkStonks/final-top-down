@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://bopkmhf1oxj2u"]
+
+[ext_resource type="Script" uid="uid://bwisia563ee5a" path="res://Scripts/Characters/zombie_bloater.gd" id="1_u6j4p"]
+[ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="2_a4txt"]
+[ext_resource type="PackedScene" uid="uid://egfnxvqvsv3x" path="res://Prefabs/Effects/blood_particle.tscn" id="3_rrvoh"]
+[ext_resource type="Texture2D" uid="uid://dch1eht0htluj" path="res://Sprites/Zombies/Zombie_Dead.png" id="4_3060n"]
+[ext_resource type="Texture2D" uid="uid://du63vlepcglpg" path="res://Sprites/Zombies/Zombie.png" id="5_kuugw"]
+[ext_resource type="Script" uid="uid://bbe5uiuoyw305" path="res://Scripts/Components/vision_manager.gd" id="6_85vjm"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_76wvq"]
+radius = 18.027756
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhn4e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_3060n")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_kuugw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="ZombieBloater" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_u6j4p")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("2_a4txt")
+blood_burst = ExtResource("3_rrvoh")
+blood_small = ExtResource("3_rrvoh")
+metadata/_custom_type_script = "uid://562jwjog0doo"
+
+[node name="RayCast2D" type="RayCast2D" parent="HealthComponent"]
+rotation = -1.5707964
+
+[node name="VisionManager" type="Node2D" parent="."]
+script = ExtResource("6_85vjm")
+
+[node name="RayCast2D" type="RayCast2D" parent="VisionManager"]
+target_position = Vector2(500, 0)
+collision_mask = 7
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_76wvq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_lhn4e")
+autoplay = "default"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="update_ai"]
