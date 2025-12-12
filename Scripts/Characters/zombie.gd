@@ -40,8 +40,6 @@ func update_ai():
 		chasing_player = false
 		desired_target_position = global_position
 	
-	print(player_spotted)
-	
 	agent.target_position = desired_target_position
 
 func control_motion(_delta:float):

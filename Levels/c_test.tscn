@@ -1,9 +1,15 @@
-[gd_scene load_steps=7 format=4 uid="uid://es5rgj4fla0u"]
+[gd_scene load_steps=13 format=4 uid="uid://es5rgj4fla0u"]
 
 [ext_resource type="PackedScene" uid="uid://ctignis256i7n" path="res://Prefabs/Characters/player.tscn" id="2_01rrd"]
 [ext_resource type="TileSet" uid="uid://dtmcwd8kcqx5" path="res://Resources/Tilesets/prototype_tileset.tres" id="2_fudp4"]
 [ext_resource type="Texture2D" uid="uid://bbrepd4qdogw6" path="res://Sprites/Lights/light.png" id="3_6kjvu"]
+[ext_resource type="PackedScene" uid="uid://dbamlo7v3u7t2" path="res://Prefabs/Interactables/weapon_pickup.tscn" id="5_isivb"]
 [ext_resource type="PackedScene" uid="uid://bopkmhf1oxj2u" path="res://Prefabs/Characters/zombie_bloater.tscn" id="5_yyjfa"]
+[ext_resource type="Resource" uid="uid://dwlgt1bihltwy" path="res://Resources/Weapons/sniper.tres" id="6_r52lc"]
+[ext_resource type="Resource" uid="uid://dsaxo75sayd1f" path="res://Resources/Weapons/beam_rifle.tres" id="7_obych"]
+[ext_resource type="Script" uid="uid://icy3ry4mcmhy" path="res://Scripts/Components/spawn_point.gd" id="8_r52lc"]
+[ext_resource type="PackedScene" uid="uid://bqs342jetviw1" path="res://Prefabs/Characters/zombie.tscn" id="9_obych"]
+[ext_resource type="PackedScene" uid="uid://ckrp1lufqdkcv" path="res://Prefabs/Interactables/area_trigger.tscn" id="10_fudp4"]
 
 [sub_resource type="Gradient" id="Gradient_01rrd"]
 offsets = PackedFloat32Array(0.3697479)
@@ -304,3 +310,26 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Event01" type="Node" parent="."]
+
+[node name="WeaponPickup" parent="." instance=ExtResource("5_isivb")]
+position = Vector2(-194, 159)
+weapon_data = ExtResource("6_r52lc")
+
+[node name="WeaponPickup2" parent="." instance=ExtResource("5_isivb")]
+position = Vector2(-288, 158)
+weapon_data = ExtResource("7_obych")
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2(-166, 60)
+script = ExtResource("8_r52lc")
+spawn_type = 2
+possible_objects_to_spawn = Array[PackedScene]([ExtResource("9_obych")])
+debug = true
+metadata/_custom_type_script = "uid://icy3ry4mcmhy"
+
+[node name="AreaTrigger" parent="." instance=ExtResource("10_fudp4")]
+position = Vector2(92, 314)
+monitorable = false
+trigger_type = 2
+
+[connection signal="player_triggered" from="AreaTrigger" to="SpawnPoint" method="spawn"]

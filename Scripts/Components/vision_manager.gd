@@ -10,7 +10,6 @@ func player_spotted() -> bool:
 	ray_cast.force_raycast_update()
 	if ray_cast.is_colliding():
 		var col : Node2D = ray_cast.get_collider()
-		print(col)
 		if col == player:
 			return true
 			

@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdmu7qxvu3vv5"]
+[gd_scene load_steps=10 format=3 uid="uid://cdmu7qxvu3vv5"]
 
 [ext_resource type="Script" uid="uid://dytdyef8ctvhd" path="res://Scripts/User_Interface/main_menu.gd" id="1_6ucrw"]
 [ext_resource type="Script" uid="uid://ctuk73yjsgr8w" path="res://Scripts/User_Interface/campaign_selection_script.gd" id="2_jy27m"]
 [ext_resource type="Script" uid="uid://badsqantsa3ei" path="res://Scripts/User_Interface/level_select_button.gd" id="3_3es34"]
 [ext_resource type="Resource" uid="uid://ssj55mividf3" path="res://Resources/Levels/TestRoom1.tres" id="4_8md67"]
+[ext_resource type="PackedScene" uid="uid://dbamlo7v3u7t2" path="res://Prefabs/Interactables/weapon_pickup.tscn" id="5_5qvx8"]
+[ext_resource type="Resource" uid="uid://dwlgt1bihltwy" path="res://Resources/Weapons/sniper.tres" id="6_hllw6"]
+[ext_resource type="Script" uid="uid://kykc6ogeawy5" path="res://Scripts/Interactables/interactable.gd" id="7_hllw6"]
 
 [sub_resource type="Gradient" id="Gradient_351dl"]
 
@@ -12,6 +15,7 @@ gradient = SubResource("Gradient_351dl")
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_6ucrw")
+metadata/_edit_vertical_guides_ = [-562.0]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -404,6 +408,21 @@ anchor_right = 1.0
 anchor_bottom = 0.6111111
 texture = SubResource("GradientTexture1D_6ucrw")
 metadata/_edit_use_anchors_ = true
+
+[node name="WeaponPickup" parent="." instance=ExtResource("5_5qvx8")]
+position = Vector2(313, 239)
+weapon_data = ExtResource("6_hllw6")
+
+[node name="Interactable" type="Area2D" parent="."]
+position = Vector2(275, 275)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_hllw6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactable"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Interactable"]
+scale = Vector2(0.2, 0.2)
 
 [connection signal="pressed" from="Control/MainMenuPanel/VBoxContainer/CampaignButton" to="." method="switch_focused_menu" binds= [1]]
 [connection signal="pressed" from="Control/MainMenuPanel/VBoxContainer/ArenaButton" to="." method="switch_focused_menu" binds= [2]]
