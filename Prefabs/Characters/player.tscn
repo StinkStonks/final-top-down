@@ -1,17 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctignis256i7n"]
+[gd_scene load_steps=13 format=3 uid="uid://ctignis256i7n"]
 
 [ext_resource type="Script" uid="uid://bj7ve82ije45q" path="res://Scripts/Characters/player.gd" id="1_ahvcc"]
+[ext_resource type="Script" uid="uid://bx6lafpdbw7ig" path="res://Scripts/Components/flare_component.gd" id="2_oefvu"]
 [ext_resource type="Texture2D" uid="uid://c8jmcab1o6ver" path="res://Sprites/Player/Character.png" id="2_r3efx"]
 [ext_resource type="Script" uid="uid://cp0k0t32wqrw4" path="res://Scripts/Components/weapon_holder.gd" id="3_25cl6"]
 [ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="3_r3efx"]
 [ext_resource type="Texture2D" uid="uid://c7e2s351hx41" path="res://icon.svg" id="3_rnjr3"]
+[ext_resource type="Script" uid="uid://cqxo34l3qeh0s" path="res://Scripts/Components/hunger_component.gd" id="5_rnjr3"]
 [ext_resource type="Script" uid="uid://5gjprttqp3vn" path="res://Scripts/Components/interaction_manager.gd" id="8_vcg4a"]
 [ext_resource type="Script" uid="uid://dwh6eri6ms4gy" path="res://Scripts/User_Interface/player_hud.gd" id="9_rnjr3"]
 [ext_resource type="Script" uid="uid://dxl602v4ee4pb" path="res://Scripts/User_Interface/pause_menu_control.gd" id="9_vcg4a"]
-
-[sub_resource type="Curve" id="Curve_rnjr3"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.4539581), 0.0, 0.0, 0, 0]
-point_count = 2
+[ext_resource type="Texture2D" uid="uid://bbrepd4qdogw6" path="res://Sprites/Lights/light.png" id="10_vcg4a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qr7vc"]
 radius = 27.018513
@@ -24,16 +23,29 @@ motion_mode = 1
 script = ExtResource("1_ahvcc")
 focus_rotate_speed = 5.0
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
 
-[node name="BodyDebugLine" type="Line2D" parent="."]
-points = PackedVector2Array(0, 0, 50, 0)
-width_curve = SubResource("Curve_rnjr3")
-default_color = Color(1, 0, 0, 0.39215687)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qr7vc")
+
+[node name="FlareComponent" type="Node2D" parent="."]
+script = ExtResource("2_oefvu")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("3_r3efx")
+metadata/_custom_type_script = "uid://562jwjog0doo"
+
+[node name="RayCast2D" type="RayCast2D" parent="HealthComponent"]
+enabled = false
+
+[node name="HungerComponent" type="Node2D" parent="."]
+script = ExtResource("5_rnjr3")
+
+[node name="Timer" type="Timer" parent="HungerComponent"]
 
 [node name="Graphics" type="Node2D" parent="."]
 
@@ -47,10 +59,13 @@ texture = ExtResource("2_r3efx")
 scale = Vector2(0.203125, 0.203125)
 texture = ExtResource("3_rnjr3")
 
-[node name="HeadDebugLine" type="Line2D" parent="Head"]
-points = PackedVector2Array(0, 0, 100, 0)
-width_curve = SubResource("Curve_rnjr3")
-default_color = Color(0, 0, 1, 0.39215687)
+[node name="InteractionManager" type="Node2D" parent="Head"]
+script = ExtResource("8_vcg4a")
+
+[node name="InteractionRaycast" type="RayCast2D" parent="Head/InteractionManager"]
+target_position = Vector2(100, 0)
+collision_mask = 2
+collide_with_areas = true
 
 [node name="WeaponHolder" type="Marker2D" parent="."]
 position = Vector2(15, 12)
@@ -62,24 +77,6 @@ scale = Vector2(0.2, 0.2)
 
 [node name="FiringPoint" type="Marker2D" parent="WeaponHolder"]
 position = Vector2(51, 0)
-
-[node name="HealthComponent" type="Node2D" parent="."]
-script = ExtResource("3_r3efx")
-metadata/_custom_type_script = "uid://562jwjog0doo"
-
-[node name="RayCast2D" type="RayCast2D" parent="HealthComponent"]
-enabled = false
-
-[node name="InteractionManager" type="Node2D" parent="."]
-script = ExtResource("8_vcg4a")
-
-[node name="InteractionRaycast" type="RayCast2D" parent="InteractionManager"]
-target_position = Vector2(100, 0)
-collision_mask = 2
-collide_with_areas = true
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_enabled = true
 
 [node name="PlayerCanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -102,6 +99,17 @@ anchor_right = 0.11631945
 anchor_bottom = 1.0
 grow_vertical = 0
 value = 100.0
+metadata/_edit_use_anchors_ = true
+
+[node name="HungerProgressBar" type="ProgressBar" parent="PlayerCanvasLayer/HUD"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.94753087
+anchor_right = 0.11631945
+anchor_bottom = 0.9583333
+grow_vertical = 0
+value = 100.0
+show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="AmmoPanel" type="Panel" parent="PlayerCanvasLayer/HUD"]
@@ -140,6 +148,12 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Interact Label"
 metadata/_edit_use_anchors_ = true
+
+[node name="FlareCountLabel" type="Label" parent="PlayerCanvasLayer/HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Flares:0"
 
 [node name="PauseMenuControl" type="Control" parent="PlayerCanvasLayer"]
 visible = false
@@ -211,10 +225,17 @@ text = "Menu"
 layout_mode = 2
 text = "Quit"
 
+[node name="PointLight2D" type="PointLight2D" parent="."]
+shadow_enabled = true
+texture = ExtResource("10_vcg4a")
+
+[connection signal="flare_count_changed" from="FlareComponent" to="PlayerCanvasLayer/HUD" method="update_flare_count_label"]
+[connection signal="health_changed" from="HealthComponent" to="PlayerCanvasLayer/HUD" method="update_health_bar"]
+[connection signal="hunger_amount_changed" from="HungerComponent" to="PlayerCanvasLayer/HUD" method="update_hunger_bar"]
+[connection signal="starve" from="HungerComponent" to="HealthComponent" method="simple_take_damage"]
+[connection signal="has_interactable" from="Head/InteractionManager" to="PlayerCanvasLayer/HUD" method="show_interact_label"]
+[connection signal="lost_interactable" from="Head/InteractionManager" to="PlayerCanvasLayer/HUD" method="hide_interact_label"]
 [connection signal="update_ui" from="WeaponHolder" to="PlayerCanvasLayer" method="update_ammo_label"]
-[connection signal="health_changed" from="HealthComponent" to="PlayerCanvasLayer" method="update_health_bar"]
-[connection signal="has_interactable" from="InteractionManager" to="PlayerCanvasLayer/HUD" method="show_interact_label"]
-[connection signal="lost_interactable" from="InteractionManager" to="PlayerCanvasLayer/HUD" method="hide_interact_label"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/ResumeButton" to="PlayerCanvasLayer/PauseMenuControl" method="pause_game"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/RestartButton" to="PlayerCanvasLayer/PauseMenuControl" method="restart_level"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/MenuButton" to="PlayerCanvasLayer/PauseMenuControl" method="return_to_menu"]
