@@ -2,8 +2,6 @@ extends Character
 class_name Player
 
 @onready var health_component : HealthComponent = $HealthComponent
-@onready var hunger_component : HungerComponent = $HungerComponent
-@onready var flare_component : FlareComponent = $FlareComponent
 @onready var weapon_holder : WeaponHolder = $WeaponHolder
 
 @export var sprint_speed : float = DEFAULT_MOVE_SPEED * 1.2
@@ -31,9 +29,6 @@ func control_character_body() -> Vector2:
 	
 	if Input.is_action_just_pressed("switch_weapon"):
 		weapon_holder.switch_weapon()
-	
-	if Input.is_action_just_pressed("throw_flare"):
-		flare_component.throw_flare(head.global_transform.x)
 	
 	return Input.get_vector("left", "right", "down", "up")
 
