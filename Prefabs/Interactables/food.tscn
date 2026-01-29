@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6q7ruxyatuhc"]
+
+[ext_resource type="PackedScene" uid="uid://bo1f8ky4abju4" path="res://Prefabs/Interactables/interactable.tscn" id="1_ubdfj"]
+[ext_resource type="Script" uid="uid://cd0m0xlkwkpul" path="res://Scripts/Interactables/food.gd" id="2_v853w"]
+[ext_resource type="Texture2D" uid="uid://c7e2s351hx41" path="res://icon.svg" id="3_eb15n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ubdfj"]
+
+[node name="Food" instance=ExtResource("1_ubdfj")]
+script = ExtResource("2_v853w")
+amount = 15.0
+interactable_name = "Food"
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_ubdfj")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("3_eb15n")

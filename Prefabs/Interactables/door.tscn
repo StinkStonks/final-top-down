@@ -1,0 +1,83 @@
+[gd_scene load_steps=9 format=3 uid="uid://e63jhfq1vscv"]
+
+[ext_resource type="Script" uid="uid://dogfvhnlo6hvn" path="res://Scripts/Interactables/door.gd" id="1_rls5b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rls5b"]
+size = Vector2(254, 20)
+
+[sub_resource type="Gradient" id="Gradient_rls5b"]
+offsets = PackedFloat32Array(0.5599022)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2gaxb"]
+gradient = SubResource("Gradient_rls5b")
+
+[sub_resource type="Animation" id="Animation_lvm7t"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.69965345, 0.69965345, 0.69965345, 0.1764706)]
+}
+
+[sub_resource type="Animation" id="Animation_ubr2h"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.69965345, 0.69965345, 0.69965345, 0.17647058), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rls5b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pmtsp"]
+_data = {
+&"RESET": SubResource("Animation_rls5b"),
+&"close": SubResource("Animation_ubr2h"),
+&"open": SubResource("Animation_lvm7t")
+}
+
+[node name="Door" type="StaticBody2D"]
+collision_layer = 3
+collision_mask = 7
+script = ExtResource("1_rls5b")
+use_once = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rls5b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 24)
+texture = SubResource("GradientTexture1D_2gaxb")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pmtsp")
+}
