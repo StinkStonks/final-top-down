@@ -6,47 +6,23 @@ class_name Zombie
 @onready var graphics : AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision : CollisionShape2D = $CollisionShape2D
 @onready var timer : Timer = $Timer
-@onready var vision_manager : VisionManager = $VisionManager
-
+@onready var state_machine : StateMachine = $StateMachine
 @export var speed = 100
-@export var player_position_always_known : bool = false
 
-var chasing_player = false
-
+@export_group("AI PROPERTIES")
+@export var target : Node2D
+@export var detection_range : float = 200
+@export var attack_range : float = 40
 signal died
 
 func _ready() -> void:
 	health_component.connect("died", kill)
-
-func _physics_process(delta: float) -> void:
-	control_motion(delta)
+	state_machine.change_state("Idle")
 
 func _process(_delta: float) -> void:
 	graphics.look_at(agent.get_next_path_position())
-	
-@onready var desired_target_position : Vector2 = global_position
-func update_ai():
-	var player_spotted : bool = vision_manager.player_spotted()
-	var player_position : Vector2 = get_tree().get_first_node_in_group('player').global_position
-	
-	if player_position_always_known:
-		desired_target_position = get_tree().get_first_node_in_group('player').global_position
-	
-	if player_spotted and !chasing_player:
-		chasing_player = true
-		desired_target_position = get_tree().get_first_node_in_group('player').global_position
-	
-	elif !player_spotted and chasing_player:
-		chasing_player = false
-		desired_target_position = global_position
-	
-	agent.target_position = desired_target_position
 
-func control_motion(_delta:float):
-	var direction = to_local(agent.get_next_path_position()).normalized()
-	velocity = direction * speed
-	move_and_slide()
-
+#This might slow down the game in the long run
 func kill() -> void:
 	graphics.play("dead")
 	
@@ -56,8 +32,16 @@ func kill() -> void:
 	collision_mask = 0
 	z_index = -1
 	
+	state_machine.set_process(false)
 	set_process(false)
 	set_physics_process(false)
 	
 	await get_tree().create_timer(120).timeout
 	queue_free()
+
+func on_target_spotted(_target: Node2D) -> void:
+	target = _target
+
+func _on_target_lost() -> void:
+	state_machine.change_state("Idle")
+	target = null

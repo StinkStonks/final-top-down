@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c4fqt1koc31v3"]
 
-[ext_resource type="Script" uid="uid://cpawr6wup6yvq" path="res://Prefabs/Impact Effects/impact_effect_area_damage.gd" id="1_kvpxo"]
+[ext_resource type="Script" uid="uid://cpawr6wup6yvq" path="res://Scripts/Bullets/impact_effect_area_damage.gd" id="1_kvpxo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gd8ie"]
 radius = 100.0
