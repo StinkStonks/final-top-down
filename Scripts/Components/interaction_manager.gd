@@ -11,7 +11,7 @@ signal lost_interactable
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("interact"):
 		if focused_interactable != null:
-			focused_interactable.interact($"../..")
+			focused_interactable.interact($"..")
 			if focused_interactable.use_once:
 				lost_interactable.emit()
 

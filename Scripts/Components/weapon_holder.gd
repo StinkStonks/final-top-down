@@ -57,7 +57,7 @@ func reload_weapon():
 		update_ui.emit(current_weapon)
 
 func can_reload() -> bool:
-	if current_weapon != null and current_weapon.can_reload():
+	if current_weapon.can_reload():
 		return true
 	return false
 
