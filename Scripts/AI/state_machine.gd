@@ -22,3 +22,10 @@ func change_state(state_name: String):
 func _process(delta: float) -> void:
 	if current_state:
 		current_state.update(delta)
+
+func alert():
+	if current_state == get_node("AI_Chase"):
+		return
+	var chase_state : AI_Chase = get_node("AI_Chase")
+	chase_state.target_last_position = get_tree().get_first_node_in_group("player").global_position
+	change_state("Chase")

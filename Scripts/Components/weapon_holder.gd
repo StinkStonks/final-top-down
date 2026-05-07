@@ -89,7 +89,6 @@ func shoot():
 				current_weapon.current_ammo -= 1
 				update_ui.emit(current_weapon)
 		
-		shot_fired.emit()
 		
 		await get_tree().create_timer(1 / current_weapon.fire_rate).timeout
 		bullets_shot = 0
@@ -118,6 +117,7 @@ func create_bullet(i : int):
 		new_bullet.damage = current_weapon.override_damage_amount
 	
 	get_tree().current_scene.add_child(new_bullet)
+	shot_fired.emit(current_weapon)
 
 func get_weapon(data : WeaponData) -> WeaponData:
 	if current_weapon == data:

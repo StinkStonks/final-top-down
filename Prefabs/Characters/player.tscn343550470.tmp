@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://ctignis256i7n"]
+[gd_scene load_steps=11 format=3 uid="uid://ctignis256i7n"]
 
-[ext_resource type="Script" uid="uid://bj7ve82ije45q" path="res://Scripts/Characters/player.gd" id="1_vcg4a"]
+[ext_resource type="Script" uid="uid://bx6lafpdbw7ig" path="res://Scripts/Components/flare_component.gd" id="2_oefvu"]
 [ext_resource type="Texture2D" uid="uid://c8jmcab1o6ver" path="res://Sprites/Player/Character.png" id="2_r3efx"]
-[ext_resource type="Script" uid="uid://jld3vjtxdbnp" path="res://Scripts/Components/camera_2d.gd" id="2_vcg4a"]
 [ext_resource type="Script" uid="uid://cp0k0t32wqrw4" path="res://Scripts/Components/weapon_holder.gd" id="3_25cl6"]
 [ext_resource type="Script" uid="uid://562jwjog0doo" path="res://Scripts/Components/health_manager.gd" id="3_r3efx"]
 [ext_resource type="Texture2D" uid="uid://c7e2s351hx41" path="res://icon.svg" id="3_rnjr3"]
@@ -19,17 +18,18 @@ z_index = 1
 collision_layer = 4
 collision_mask = 5
 motion_mode = 1
-script = ExtResource("1_vcg4a")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
-script = ExtResource("2_vcg4a")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_qr7vc")
+
+[node name="FlareComponent" type="Node2D" parent="."]
+script = ExtResource("2_oefvu")
 
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("3_r3efx")
@@ -67,7 +67,7 @@ position = Vector2(33.000004, 0)
 scale = Vector2(0.2, 0.2)
 
 [node name="FiringPoint" type="Marker2D" parent="WeaponHolder"]
-position = Vector2(30, -12)
+position = Vector2(51, 0)
 
 [node name="PlayerCanvasLayer" type="CanvasLayer" parent="."]
 process_mode = 3
@@ -209,10 +209,10 @@ text = "Quit"
 shadow_enabled = true
 texture = ExtResource("10_vcg4a")
 
+[connection signal="flare_count_changed" from="FlareComponent" to="PlayerCanvasLayer/HUD" method="update_flare_count_label"]
 [connection signal="health_changed" from="HealthComponent" to="PlayerCanvasLayer/HUD" method="update_health_bar"]
 [connection signal="has_interactable" from="Head/InteractionManager" to="PlayerCanvasLayer/HUD" method="show_interact_label"]
 [connection signal="lost_interactable" from="Head/InteractionManager" to="PlayerCanvasLayer/HUD" method="hide_interact_label"]
-[connection signal="shot_fired" from="WeaponHolder" to="Camera2D" method="shake_from_gun_shot"]
 [connection signal="update_ui" from="WeaponHolder" to="PlayerCanvasLayer/HUD" method="update_ammo_label"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/ResumeButton" to="PlayerCanvasLayer/PauseMenuControl" method="pause_game"]
 [connection signal="pressed" from="PlayerCanvasLayer/PauseMenuControl/PauseMenuPanel/VBoxContainer/RestartButton" to="PlayerCanvasLayer/PauseMenuControl" method="restart_level"]

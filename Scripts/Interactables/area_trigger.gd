@@ -9,6 +9,7 @@ enum TriggerType {
 
 @onready var player : Player = get_tree().get_first_node_in_group('player')
 @export var trigger_type : TriggerType = TriggerType.On_Enter
+@export var delete_after_use : bool = false
 var player_can_interact : bool = false
 
 signal player_triggered
@@ -51,3 +52,5 @@ func on_exit(body : Node2D):
 func trigger():
 	debug_log_string = "TRIGGERED"
 	player_triggered.emit()
+	if delete_after_use:
+		queue_free()

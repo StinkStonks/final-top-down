@@ -1,47 +1,60 @@
 extends CharacterBody2D
 class_name Zombie
 
-@onready var agent : NavigationAgent2D = $NavigationAgent2D
-@onready var health_component : HealthComponent = $HealthComponent
-@onready var graphics : AnimatedSprite2D = $AnimatedSprite2D
+@export var speed : float = 80
+@export var attack_range : float = 20
+
 @onready var collision : CollisionShape2D = $CollisionShape2D
-@onready var timer : Timer = $Timer
-@onready var state_machine : StateMachine = $StateMachine
-@export var speed = 100
+@onready var health = $HealthComponent
+@onready var nav_agent : NavigationAgent2D = $NavigationAgent2D
+@onready var player : Node2D 
 
-@export_group("AI PROPERTIES")
-@export var target : Node2D
-@export var detection_range : float = 200
-@export var attack_range : float = 40
-signal died
+var active : bool
 
-func _ready() -> void:
-	health_component.connect("died", kill)
-	state_machine.change_state("Idle")
+func _ready():
+	player = get_tree().get_first_node_in_group("player")
+	nav_agent.target_desired_distance = 4.0
+	deactivate()
 
-func _process(_delta: float) -> void:
-	graphics.look_at(agent.get_next_path_position())
+func activate(spawn_position:Vector2):
+	global_position = spawn_position
+	collision.disabled = false
+	set_process(true)
+	set_physics_process(true)
+	show()
 
-#This might slow down the game in the long run
-func kill() -> void:
-	graphics.play("dead")
-	
-	died.emit()
-	rotation_degrees = randf_range(0, 360)
-	collision_layer = 0
-	collision_mask = 0
-	z_index = -1
-	
-	state_machine.set_process(false)
+func deactivate():
+	global_position = Vector2(0,0)
+	collision.disabled = true
 	set_process(false)
 	set_physics_process(false)
+	hide()
+
+func _process(delta: float) -> void:
+	look_at(nav_agent.get_next_path_position())
+
+func _physics_process(delta):
+	if not player:
+		return
 	
-	await get_tree().create_timer(120).timeout
-	queue_free()
+	nav_agent.target_position = player.global_position
 
-func on_target_spotted(_target: Node2D) -> void:
-	target = _target
+	var next_point = nav_agent.get_next_path_position()
+	var direction = (next_point - global_position).normalized()
 
-func _on_target_lost() -> void:
-	state_machine.change_state("Idle")
-	target = null
+	velocity = direction * speed
+
+	# Stop moving if close enough (attack range)
+	if global_position.distance_to(player.global_position) <= attack_range:
+		velocity = Vector2.ZERO
+		attack()
+	
+	move_and_slide()
+
+func kill():
+	var zombie_pool : ZombiePool = get_tree().current_scene.get_node("ZombiePool") 
+	zombie_pool.return_zombie(self)
+
+func attack():
+	look_at(player.global_position)
+	print("Zombie attacking!")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://u6puen50l4tl"]
+
+[ext_resource type="Script" uid="uid://deegsv0vh74ey" path="res://Scripts/zombie_pool.gd" id="1_yx6at"]
+
+[node name="PoolingTest" type="Node"]
+script = ExtResource("1_yx6at")

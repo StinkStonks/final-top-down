@@ -1,20 +1,28 @@
-extends Character
+extends CharacterBody2D
 class_name Player
 
+const DEFAULT_MOVE_SPEED : float = 240
+const DEFAULT_ACCEL : float = 0.1
+const DEFAULT_FRICTION : float = 0.1
+
 @onready var health_component : HealthComponent = $HealthComponent
-@onready var hunger_component : HungerComponent = $HungerComponent
-@onready var flare_component : FlareComponent = $FlareComponent
 @onready var weapon_holder : WeaponHolder = $WeaponHolder
+@onready var originial_speed : float = move_speed
 
 @export var sprint_speed : float = DEFAULT_MOVE_SPEED * 1.2
 @export var focused_speed : float = DEFAULT_MOVE_SPEED * 0.25
+@export var move_speed : float = DEFAULT_MOVE_SPEED
+@export var accel : float = DEFAULT_ACCEL
+@export var friction : float = DEFAULT_FRICTION
+
+var focused : bool = false
+
+signal died
 
 func _process(delta: float) -> void:
-	change_focus(Input.is_action_pressed("focus"))
-	
-	if focused:
-		move_speed = focused_speed
-	elif !focused and is_sprinting():
+	if Input.is_action_pressed("shoot"):
+		weapon_holder.shoot()
+	if Input.is_action_pressed("sprint"):
 		move_speed = sprint_speed
 	else:
 		move_speed = originial_speed
@@ -22,8 +30,25 @@ func _process(delta: float) -> void:
 	if focused:
 		if Input.is_action_pressed("shoot"):
 			weapon_holder.shoot()
+
 	
-	super(delta)
+func _input(event: InputEvent) -> void:
+	
+	if Input.is_action_just_pressed("reload"):
+		weapon_holder.reload_weapon()
+
+func _physics_process(delta: float) -> void:
+	var movement_input = control_character_body().normalized()
+	
+	velocity = movement_input * move_speed
+	
+	look_at(get_global_mouse_position())
+	
+	move_and_slide()
+
+func kill():
+	died.emit()
+	queue_free()
 
 func control_character_body() -> Vector2:
 	if Input.is_action_just_pressed("reload"):
@@ -32,13 +57,8 @@ func control_character_body() -> Vector2:
 	if Input.is_action_just_pressed("switch_weapon"):
 		weapon_holder.switch_weapon()
 	
-	if Input.is_action_just_pressed("throw_flare"):
-		flare_component.throw_flare(head.global_transform.x)
 	
-	return Input.get_vector("left", "right", "down", "up")
+	return Input.get_vector("left","right","up","down").normalized() * move_speed
 
 func control_character_head() -> Vector2:
 	return get_global_mouse_position()
-
-func is_sprinting() -> bool:
-	return Input.is_action_pressed("sprint")

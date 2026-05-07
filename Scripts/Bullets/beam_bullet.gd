@@ -16,7 +16,7 @@ func _physics_process(delta):
 		target_position = to_local(get_collision_point())
 		var collider = get_collider()
 		if collider.has_node("HealthComponent") && collider != get_tree().get_first_node_in_group('player'):
-			var hc : HealthComponent = collider.health_component
+			var hc : HealthComponent = collider.get_node("HealthComponent")
 			var damage_data : DamageData = DamageData.new()
 			
 			damage_data.amount = damage

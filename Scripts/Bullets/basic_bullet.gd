@@ -9,7 +9,7 @@ func _process(delta: float) -> void:
 
 func body_entered(body : Node2D):
 	if body.has_node("HealthComponent"):
-		var health_component : HealthComponent = body.health_component
+		var health_component : HealthComponent = body.get_node("HealthComponent")
 		var damage_data : DamageData = DamageData.new()
 		damage_data.amount = damage
 		damage_data.hit_direction = -global_rotation
