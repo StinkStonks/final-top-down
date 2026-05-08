@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name ZombiePool
 
 static var instance : ZombiePool
@@ -6,12 +6,17 @@ static var instance : ZombiePool
 @export var zombie_scene : PackedScene = preload("res://Prefabs/Characters/zombie.tscn")
 @export var pool_size : int = 50
 
+var nav_map : RID
 var inactive_zombies : Array[Zombie] = []
 var active_zombies : Array[Zombie] = []
 
 func _ready():
+	nav_map = get_world_2d().navigation_map
 	instance = self
 	create_pool()
+
+func _process(delta: float) -> void:
+	pass
 
 func create_pool():
 	#add pool objects to pool node
@@ -42,17 +47,22 @@ static func return_zombie(zombie : Zombie):
 	
 	instance.inactive_zombies.append(zombie)
 
-
 func spawn_zombies(amount : int, position : Vector2, area : float):
 	for i in amount:
 		var spawn_position = position + random_point_in_circle(area)
 		ZombiePool.instance.get_zombie.call_deferred(spawn_position)
 
 func random_point_in_circle(radius : float) -> Vector2:
+	var desired_point : Vector2
+	
 	var angle = randf() * TAU
 	var distance = sqrt(randf()) * radius
 
-	return Vector2(
+	desired_point = Vector2(
 		cos(angle),
 		sin(angle)
 	) * distance
+	
+	var closest_point = NavigationServer2D.map_get_closest_point(nav_map, desired_point)
+	
+	return closest_point

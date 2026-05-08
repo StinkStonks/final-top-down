@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 class_name SpawnPoint
 
@@ -7,3 +8,10 @@ class_name SpawnPoint
 
 func spawn_zombies():
 	zombie_pool.spawn_zombies(amount, global_position, radius)
+
+func _process(delta: float) -> void:
+	queue_redraw()
+
+func _draw() -> void:
+	if Engine.is_editor_hint():
+		draw_circle(Vector2.ZERO, radius, Color.DARK_RED, false, 1.0, false)

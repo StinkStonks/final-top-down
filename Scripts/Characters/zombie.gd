@@ -3,6 +3,7 @@ class_name Zombie
 
 @export var speed : float = 80
 @export var attack_range : float = 20
+@export var score_to_add_range : Vector2 = Vector2(20, 35)
 
 @onready var collision : CollisionShape2D = $CollisionShape2D
 @onready var health = $HealthComponent
@@ -53,6 +54,7 @@ func _physics_process(delta):
 
 func kill():
 	var zombie_pool : ZombiePool = get_tree().current_scene.get_node("ZombiePool") 
+	GameManager.add_score(randi_range(score_to_add_range.x, score_to_add_range.y))
 	zombie_pool.return_zombie(self)
 
 func attack():

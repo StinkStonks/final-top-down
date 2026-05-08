@@ -2,6 +2,9 @@ extends Node
 
 const MAINMENUPATH = "res://Levels/main_menu.tscn"
 
+var current_score : int = 0
+var total_score : int = 0
+
 func restart_level() -> void:
 	get_tree().reload_current_scene()
 	pause_game(false)
@@ -22,3 +25,8 @@ func pause_game( paused : bool = true, invert : bool = false) -> void:
 
 func quit_game() -> void:
 	get_tree().quit()
+
+func add_score(amount : int):
+	current_score += amount
+	total_score += amount
+	print("total_score:{TotalScore}\ncurrent_score:{CurrentScore}".format({"TotalScore" : total_score, "CurrentScore" : current_score}))
